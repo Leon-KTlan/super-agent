@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>智能OnCall助手</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <!-- Vercel 部署配置：通过 window.__ONCALL_CONFIG__ 注入后端 API 地址 -->
+    <script>
+        window.__ONCALL_CONFIG__ = {
+            // 后端 API 基础地址：部署时改为实际后端地址
+            // 方式一（推荐）：通过 vercel.json rewrites 代理（默认 /api 即可）
+            // 方式二：直接填写完整后端地址，如 'https://your-backend.com/api'
+            API_BASE_URL: '/api'
+        };
+    </script>
     <!-- Markdown 渲染库 -->
     <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
     <!-- 代码高亮库（可选） -->
@@ -127,6 +136,6 @@
         </div>
     </div>
 
-    <script src="/static/app.js"></script>
+    <script src="/app.js"></script>
 </body>
 </html>

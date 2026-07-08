@@ -1,7 +1,10 @@
 // SuperBizAgent 前端应用
 class SuperBizAgentApp {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:9900/api';
+        // API 基础地址：默认从 window.__ONCALL_CONFIG__ 读取，兜底为 /api
+        // 部署到 Vercel 时通过 vercel.json rewrites 代理到后端，无需改此配置
+        const API_BASE = window.__ONCALL_CONFIG__?.API_BASE_URL || '/api';
+        this.apiBaseUrl = API_BASE;
         this.currentMode = 'quick'; // 'quick' 或 'stream'
         this.sessionId = this.generateSessionId();
         this.isStreaming = false;
@@ -439,7 +442,7 @@ class SuperBizAgentApp {
         
         try {
             // 从后端获取会话历史
-            const response = await fetch(`/api/chat/session/${historyId}`);
+            const response = await fetch(`${this.apiBaseUrl}/chat/session/${historyId}`);
             if (response.ok) {
                 const data = await response.json();
                 const backendHistory = data.history || [];
@@ -506,7 +509,7 @@ class SuperBizAgentApp {
     async deleteChatHistory(historyId) {
         try {
             // 调用后端API清空会话
-            const response = await fetch('/api/chat/clear', {
+            const response = await fetch(`${this.apiBaseUrl}/chat/clear`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
